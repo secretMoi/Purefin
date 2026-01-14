@@ -1,0 +1,7 @@
+﻿services:
+  purefin.backend:
+    image: purefin.backend
+    build:
+      context: .
+      dockerfile: PureFin.Backend/Dockerfile
+

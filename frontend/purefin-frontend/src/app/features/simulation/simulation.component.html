@@ -1,309 +1,298 @@
-<div class="min-h-screen bg-slate-50 font-sans text-slate-900">
+<div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
   
     <!-- Header -->
-    <header class="bg-slate-800 text-white py-4 px-6 shadow-md">
-      <div class="max-w-7xl mx-auto flex justify-between items-center">
-        <div class="flex items-center gap-2">
-          <div class="bg-slate-700 p-2 rounded-lg">
-            <i class="pi pi-calculator text-emerald-400 text-xl"></i>
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-200/60">
+      <div class="max-w-7xl mx-auto flex justify-between items-center h-16 px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center gap-3">
+          <div class="bg-slate-900 p-1.5 rounded-lg shadow-lg shadow-emerald-500/20">
+            <i class="pi pi-calculator text-emerald-400 text-lg"></i>
           </div>
-          <div>
-            <h1 class="font-bold text-lg leading-tight">PureFin</h1>
-            <p class="text-xs text-slate-400">Simulateur SRL Belge</p>
+          <div class="flex flex-col">
+            <h1 class="font-bold text-lg leading-none tracking-tight text-slate-900">PureFin</h1>
+            <span class="text-[0.65rem] font-medium text-slate-500 uppercase tracking-wider mt-0.5">Simulateur SRL</span>
           </div>
         </div>
-        <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-300">
-          <a href="#" class="hover:text-white transition-colors">Simulation</a>
-          <a href="#" class="hover:text-white transition-colors">Résultats</a>
+        <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-500">
+          <a href="#" class="text-slate-900 hover:text-emerald-600 transition-colors">Simulation</a>
+          <a href="#" class="hover:text-emerald-600 transition-colors">A propos</a>
+          <a href="#" class="hover:text-emerald-600 transition-colors">Contact</a>
         </nav>
+        <div class="flex items-center gap-3">
+             <button class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2">Connexion</button>
+             <button class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-xl shadow-slate-900/10">S'inscrire</button>
+        </div>
       </div>
     </header>
   
-    <!-- Hero -->
-    <section class="bg-slate-800 text-white pt-12 pb-24 -mb-12 rounded-b-[3rem] shadow-sm relative z-0">
-      <div class="max-w-4xl mx-auto text-center px-4">
-        <div class="inline-flex items-center gap-2 bg-slate-700/50 px-4 py-1.5 rounded-full text-xs font-medium text-slate-300 mb-6 border border-slate-600">
-          <i class="pi pi-bolt text-yellow-400"></i>
-          Spécialement conçu pour les freelances IT en Belgique
+    <!-- Hero Section -->
+    <section class="relative pt-16 pb-32 overflow-hidden">
+      <!-- Background Elements -->
+      <div class="absolute inset-0 bg-slate-900">
+        <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+        <div class="absolute top-0 left-0 w-full h-full bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 brightness-100 contrast-150"></div>
+        <div class="absolute -top-24 -right-24 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/2 -left-24 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div class="relative z-10 max-w-4xl mx-auto text-center px-4">
+        <div class="inline-flex items-center gap-2 bg-slate-800/50 backdrop-blur border border-slate-700/50 px-4 py-1.5 rounded-full text-xs font-medium text-emerald-400 mb-8 shadow-sm animate-fade-in-up">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          Mis à jour : Fiscalité 2024
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-          Simulez votre <span class="text-emerald-400">comptabilité SRL</span>
+        
+        <h2 class="text-4xl md:text-6xl font-extrabold mb-6 tracking-tight text-white leading-tight">
+          Optimisez vos revenus <br>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300">en toute transparence</span>
         </h2>
-        <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed">
-          Calculez précisément votre revenu net personnel et les économies de votre société.
-          Optimisez vos déductions fiscales en toute transparence.
+        
+        <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed mb-10 font-light">
+          Le simulateur le plus précis pour les freelances IT en Belgique. 
+          Calculez votre net réel, vos impôts et vos réserves de société en quelques clics.
         </p>
         
-        <div class="flex justify-center gap-6 mt-8 text-xs text-emerald-400/80 font-medium">
-          <span class="flex items-center gap-1"><i class="pi pi-shield"></i> Calculs conformes 2024</span>
-          <span class="flex items-center gap-1"><i class="pi pi-chart-line"></i> Optimisation fiscale</span>
+        <div class="flex flex-col sm:flex-row justify-center gap-4 text-sm">
+           <div class="flex items-center gap-2 text-slate-300 bg-slate-800/40 px-4 py-2 rounded-lg border border-slate-700/50">
+             <i class="pi pi-check-circle text-emerald-400"></i>
+             <span>Calculs IPP & ISOC précis</span>
+           </div>
+           <div class="flex items-center gap-2 text-slate-300 bg-slate-800/40 px-4 py-2 rounded-lg border border-slate-700/50">
+             <i class="pi pi-check-circle text-emerald-400"></i>
+             <span>Optimisation fiscale inclus</span>
+           </div>
+           <div class="flex items-center gap-2 text-slate-300 bg-slate-800/40 px-4 py-2 rounded-lg border border-slate-700/50">
+             <i class="pi pi-check-circle text-emerald-400"></i>
+             <span>Visualisation instantanée</span>
+           </div>
         </div>
+      </div>
+      
+      <!-- Curve Separator -->
+      <div class="absolute bottom-0 left-0 w-full overflow-hidden leading-none">
+        <svg class="relative block w-full h-[60px] md:h-[100px]" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="fill-slate-50"></path>
+        </svg>
       </div>
     </section>
   
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 relative z-10">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24 -mt-12 relative z-20">
       
-      <!-- Input Section -->
-      <section class="mb-12">
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
-          <div class="p-6 border-b border-slate-100 bg-slate-50/50">
-            <h3 class="text-lg font-semibold flex items-center gap-2 text-slate-800">
-              <span class="bg-slate-200/50 p-1.5 rounded text-slate-500"><i class="pi pi-sliders-h"></i></span>
-              Paramètres de simulation
-            </h3>
-            <p class="text-slate-500 text-sm mt-1 ml-9">Entrez vos données financières pour calculer votre situation</p>
-          </div>
-  
-          <div class="p-8 space-y-10">
-            
-            <!-- Revenus -->
-            <div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
-                <i class="pi pi-euro"></i> Revenus
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- CA -->
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Chiffre d'affaires annuel
-                    <i class="pi pi-info-circle text-slate-400 hover:text-slate-600 cursor-help" pTooltip="Montant total facturé hors TVA sur une année." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="revenue" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg shadow-sm"></p-inputNumber>
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+          
+          <!-- Left Column: Inputs -->
+          <div class="lg:col-span-5 space-y-6">
+              
+              <!-- Card: Revenus -->
+              <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-slate-800">Revenus</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Base de calcul de la société</p>
+                    </div>
+                    <div class="bg-emerald-100 p-2 rounded-lg text-emerald-600">
+                        <i class="pi pi-wallet"></i>
+                    </div>
                 </div>
-                <!-- Salary -->
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Salaire brut mensuel
-                    <i class="pi pi-info-circle text-slate-400 hover:text-slate-600 cursor-help" pTooltip="Votre rémunération brute mensuelle avant déduction ONSS et IPP." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="grossSalaryMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full border-slate-300 focus:border-emerald-500 focus:ring-emerald-500 rounded-lg shadow-sm"></p-inputNumber>
+                <div class="p-6 space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-700 flex justify-between">
+                            <span>Chiffre d'affaires (HTVA)</span>
+                            <i class="pi pi-info-circle text-slate-400 cursor-help text-xs" pTooltip="Montant total facturé sur l'année hors TVA." tooltipPosition="left"></i>
+                        </label>
+                        <p-inputNumber [(ngModel)]="revenue" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-lg font-semibold text-slate-800"></p-inputNumber>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-700 flex justify-between">
+                            <span>Salaire brut mensuel</span>
+                            <i class="pi pi-info-circle text-slate-400 cursor-help text-xs" pTooltip="Votre rémunération brute mensuelle." tooltipPosition="left"></i>
+                        </label>
+                        <p-inputNumber [(ngModel)]="grossSalaryMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-lg font-semibold text-slate-800"></p-inputNumber>
+                        <p class="text-xs text-slate-400 text-right">Annuel: {{ grossSalaryAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
+                    </div>
                 </div>
               </div>
-            </div>
-  
-            <p-divider></p-divider>
-  
-            <!-- Frais Déductibles -->
-            <div>
-              <h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
-                <i class="pi pi-receipt"></i> Frais déductibles
-              </h4>
-              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+              <!-- Card: Charges -->
+              <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                    <div>
+                        <h3 class="font-semibold text-slate-800">Frais & Déductions</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">Optimisation des coûts</p>
+                    </div>
+                    <div class="bg-blue-100 p-2 rounded-lg text-blue-600">
+                        <i class="pi pi-receipt"></i>
+                    </div>
+                </div>
                 
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Assurances (annuel)
-                    <i class="pi pi-info-circle text-slate-400" pTooltip="Assurance RC Pro, Revenu Garanti, Hospitalisation..." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="insuranceAnnual" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
+                <div class="p-6 space-y-6">
+                    <!-- Mensuel Group -->
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Charges Mensuelles</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-medium text-slate-600">Voiture (Leasing)</label>
+                                <p-inputNumber [(ngModel)]="carMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-medium text-slate-600">Chèques-repas</label>
+                                <p-inputNumber [(ngModel)]="mealVouchersMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-medium text-slate-600">Téléphone</label>
+                                <p-inputNumber [(ngModel)]="phoneMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                            <div class="space-y-1.5">
+                                <label class="text-xs font-medium text-slate-600">Internet</label>
+                                <p-inputNumber [(ngModel)]="internetMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                            <div class="space-y-1.5 col-span-2">
+                                <label class="text-xs font-medium text-slate-600 flex items-center gap-1">
+                                    Restaurant & Représentation
+                                    <span class="text-[10px] bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded">DNA 31%</span>
+                                </label>
+                                <p-inputNumber [(ngModel)]="restaurantMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p-divider styleClass="my-2"></p-divider>
+
+                    <!-- Annuel Group -->
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Charges Annuelles</h4>
+                        <div class="space-y-3">
+                            <div class="grid grid-cols-2 gap-4 items-center">
+                                <label class="text-xs font-medium text-slate-600">Assurances</label>
+                                <p-inputNumber [(ngModel)]="insuranceAnnual" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 items-center">
+                                <label class="text-xs font-medium text-slate-600">Épargne Pension (EIP)</label>
+                                <p-inputNumber [(ngModel)]="pensionAnnual" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4 items-center">
+                                <label class="text-xs font-medium text-slate-600">Autres frais (Comptable...)</label>
+                                <p-inputNumber [(ngModel)]="otherAnnual" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full text-sm"></p-inputNumber>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-  
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Téléphone (mensuel)
-                    <i class="pi pi-info-circle text-slate-400" pTooltip="Abonnement mobile et frais liés." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="phoneMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                </div>
-  
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Internet (mensuel)
-                    <i class="pi pi-info-circle text-slate-400" pTooltip="Abonnement internet professionnel." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="internetMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                </div>
-  
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Voiture (mensuel)
-                    <i class="pi pi-info-circle text-slate-400" pTooltip="Leasing, carburant, entretiens (part professionnelle)." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="carMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                </div>
-  
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Chèques-repas (mensuel)
-                    <i class="pi pi-info-circle text-slate-400" pTooltip="Montant total des chèques repas (part employeur)." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="mealVouchersMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                </div>
-  
-                <div class="flex flex-col gap-2">
-                  <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                    Restaurant (mensuel)
-                    <i class="pi pi-info-circle text-slate-400" pTooltip="Frais de représentation et repas d'affaires." tooltipPosition="top"></i>
-                  </label>
-                  <p-inputNumber [(ngModel)]="restaurantMonthly" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                </div>
-  
               </div>
-            </div>
-  
-            <p-divider></p-divider>
-  
-            <!-- Autres -->
-            <div>
-               <h4 class="text-sm font-bold uppercase tracking-wider text-slate-500 mb-4 flex items-center gap-2">
-                 <i class="pi pi-wallet"></i> Épargne & Autres
-               </h4>
-               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 <div class="flex flex-col gap-2">
-                   <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                     Épargne pension (annuel)
-                     <i class="pi pi-info-circle text-slate-400" pTooltip="EIP (Engagement Individuel de Pension)." tooltipPosition="top"></i>
-                   </label>
-                   <p-inputNumber [(ngModel)]="pensionAnnual" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                 </div>
-                 <div class="flex flex-col gap-2">
-                   <label class="text-sm font-medium text-slate-700 flex items-center gap-1">
-                     Autres frais (annuel)
-                     <i class="pi pi-info-circle text-slate-400" pTooltip="Comptable, petit matériel, formations..." tooltipPosition="top"></i>
-                   </label>
-                   <p-inputNumber [(ngModel)]="otherAnnual" mode="currency" currency="EUR" locale="fr-BE" styleClass="w-full" inputStyleClass="w-full rounded-lg border-slate-200"></p-inputNumber>
-                 </div>
-               </div>
-            </div>
+
           </div>
-        </div>
-      </section>
-  
-      <!-- Results Section -->
-      <section class="mb-12">
-        <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
-            <span class="p-1.5 bg-emerald-100 text-emerald-600 rounded"><i class="pi pi-chart-bar"></i></span>
-            Résultats de la simulation
-        </h3>
-        <p class="text-slate-500 mb-6">Aperçu de votre situation financière optimisée</p>
-  
-        <!-- Personal Income -->
-        <h4 class="text-sm font-bold text-emerald-600 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <i class="pi pi-user"></i> Votre revenu net personnel
-        </h4>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-6 relative overflow-hidden">
-                <div class="absolute top-4 right-4 text-emerald-200"><i class="pi pi-arrow-up-right text-4xl"></i></div>
-                <p class="text-emerald-700 font-medium mb-1">Net annuel en poche</p>
-                <p class="text-3xl font-bold text-slate-800">{{ netAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-emerald-600 mt-2">Après impôts et cotisations</p>
-            </div>
-            <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-6 relative overflow-hidden">
-                <div class="absolute top-4 right-4 text-emerald-200"><i class="pi pi-wallet text-4xl"></i></div>
-                <p class="text-emerald-700 font-medium mb-1">Net mensuel</p>
-                <p class="text-3xl font-bold text-slate-800">{{ netMonthly() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-emerald-600 mt-2">Sur 12 mois</p>
-            </div>
-        </div>
-  
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-             <div class="bg-white border border-slate-100 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-slate-500 text-sm font-medium">Salaire brut annuel</p>
-                    <i class="pi pi-calculator text-slate-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ grossSalaryAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-             </div>
-             
-             <div class="bg-orange-50 border border-orange-100 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-orange-700 text-sm font-medium">Cotisations sociales</p>
-                    <i class="pi pi-chart-pie text-orange-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ socialContributions() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-orange-600 mt-1">~20.5% du brut</p>
-             </div>
-  
-             <div class="bg-orange-50 border border-orange-100 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-orange-700 text-sm font-medium">IPP (Impôt)</p>
-                    <i class="pi pi-building text-orange-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ ipp() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-orange-600 mt-1">Barème progressif</p>
-             </div>
-        </div>
-  
-        <!-- Company Situation -->
-        <h4 class="text-sm font-bold text-slate-600 uppercase tracking-wider mb-4 flex items-center gap-2">
-            <i class="pi pi-building"></i> Situation de la société
-        </h4>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-            <div class="bg-white border border-slate-100 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-slate-500 text-sm font-medium">Frais déductibles</p>
-                    <i class="pi pi-receipt text-slate-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ totalDeductiblesAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-slate-400 mt-1">Total annuel</p>
-            </div>
-  
-            <div class="bg-white border border-slate-100 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-slate-500 text-sm font-medium">Bénéfice imposable</p>
-                    <i class="pi pi-money-bill text-slate-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ taxableProfit() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-slate-400 mt-1">Après charges</p>
-            </div>
-  
-            <div class="bg-orange-50/50 border border-orange-100 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-orange-700 text-sm font-medium">Impôt société</p>
-                    <i class="pi pi-percentage text-orange-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ corpTax() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-orange-600 mt-1">20% PME ou 25%</p>
-            </div>
-  
-            <div class="bg-slate-100/50 border border-slate-200 rounded-xl p-6 shadow-sm">
-                <div class="flex justify-between items-start mb-2">
-                    <p class="text-slate-700 text-sm font-medium">Réserves annuelles</p>
-                    <i class="pi pi-briefcase text-slate-300"></i>
-                </div>
-                <p class="text-2xl font-bold text-slate-800">{{ reserves() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</p>
-                <p class="text-xs text-slate-500 mt-1">Économies société</p>
-            </div>
-        </div>
-      </section>
-  
-      <!-- Visualization -->
-      <section>
-          <h3 class="text-xl font-bold text-slate-800 mb-2 flex items-center gap-2">
-              <span class="p-1.5 bg-blue-100 text-blue-600 rounded"><i class="pi pi-chart-pie"></i></span>
-              Visualisation
-          </h3>
-          <p class="text-slate-500 mb-6">Répartition graphique de vos finances</p>
-  
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div class="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
-                  <h4 class="text-sm font-medium text-slate-700 mb-6">Répartition du chiffre d'affaires</h4>
-                  <div class="h-64 flex justify-center">
-                      <p-chart type="doughnut" [data]="chartDataPie" [options]="chartOptionsPie" class="w-full h-full"></p-chart>
+
+          <!-- Right Column: Results -->
+          <div class="lg:col-span-7 space-y-6">
+              
+              <!-- Key KPIs -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <!-- Net Perso -->
+                  <div class="bg-white rounded-2xl shadow-xl shadow-emerald-500/10 border border-emerald-100 overflow-hidden relative group hover:shadow-2xl hover:shadow-emerald-500/20 transition-all duration-300">
+                      <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                          <i class="pi pi-user text-9xl text-emerald-500 -mr-4 -mt-4 transform rotate-12"></i>
+                      </div>
+                      <div class="p-6 relative z-10">
+                          <h3 class="text-emerald-700 font-medium text-sm mb-1 uppercase tracking-wide">Net en poche (Annuel)</h3>
+                          <div class="flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold text-slate-800 tracking-tight">{{ netAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</span>
+                          </div>
+                          <div class="mt-4 flex items-center gap-2 text-sm text-emerald-600 bg-emerald-50 w-fit px-3 py-1 rounded-full font-medium">
+                              <span>{{ netMonthly() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }} / mois</span>
+                          </div>
+                          <p class="text-xs text-slate-400 mt-4">Après IPP et cotisations sociales</p>
+                      </div>
+                  </div>
+
+                  <!-- Reserves Société -->
+                  <div class="bg-white rounded-2xl shadow-xl shadow-blue-500/10 border border-blue-100 overflow-hidden relative group hover:shadow-2xl hover:shadow-blue-500/20 transition-all duration-300">
+                      <div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                          <i class="pi pi-briefcase text-9xl text-blue-500 -mr-4 -mt-4 transform rotate-12"></i>
+                      </div>
+                      <div class="p-6 relative z-10">
+                          <h3 class="text-blue-700 font-medium text-sm mb-1 uppercase tracking-wide">Réserves Société</h3>
+                          <div class="flex items-baseline gap-2">
+                            <span class="text-4xl font-extrabold text-slate-800 tracking-tight">{{ reserves() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</span>
+                          </div>
+                           <div class="mt-4 flex items-center gap-2 text-sm text-blue-600 bg-blue-50 w-fit px-3 py-1 rounded-full font-medium">
+                              <span>Trésorerie disponible</span>
+                          </div>
+                          <p class="text-xs text-slate-400 mt-4">Après impôt des sociétés (ISOC)</p>
+                      </div>
                   </div>
               </div>
-  
-              <div class="bg-white rounded-xl border border-slate-100 p-6 shadow-sm">
-                  <h4 class="text-sm font-medium text-slate-700 mb-6">Comparaison Personnel vs Société</h4>
-                  <div class="h-64">
-                      <p-chart type="bar" [data]="chartDataBar" [options]="chartOptionsBar" class="w-full h-full"></p-chart>
+
+              <!-- Detailed Breakdown Grid -->
+              <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-6">
+                  <h3 class="font-semibold text-slate-800 mb-6 flex items-center gap-2">
+                      <i class="pi pi-list text-slate-400"></i> Détails de la fiscalité
+                  </h3>
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                      <!-- Box 1 -->
+                      <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors">
+                          <div class="text-xs text-slate-500 mb-1">Cotisations Soc.</div>
+                          <div class="font-bold text-lg text-slate-800">{{ socialContributions() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</div>
+                          <div class="text-[10px] text-orange-500 mt-1 flex items-center gap-1">
+                              <i class="pi pi-exclamation-circle"></i> ~21.3% (inc. frais)
+                          </div>
+                      </div>
+                      <!-- Box 2 -->
+                      <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors">
+                          <div class="text-xs text-slate-500 mb-1">IPP (Impôt Perso)</div>
+                          <div class="font-bold text-lg text-slate-800">{{ ipp() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</div>
+                           <div class="text-[10px] text-slate-400 mt-1">Barème progressif</div>
+                      </div>
+                      <!-- Box 3 -->
+                      <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors">
+                          <div class="text-xs text-slate-500 mb-1">Total Charges Soc.</div>
+                          <div class="font-bold text-lg text-slate-800">{{ totalDeductiblesAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</div>
+                          <div class="text-[10px] text-green-600 mt-1 flex items-center gap-1">
+                              <i class="pi pi-check"></i> Déductible
+                          </div>
+                      </div>
+                      <!-- Box 4 -->
+                      <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 hover:border-slate-200 transition-colors">
+                          <div class="text-xs text-slate-500 mb-1">ISOC (Impôt Soc.)</div>
+                          <div class="font-bold text-lg text-slate-800">{{ corpTax() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</div>
+                          <div class="text-[10px] text-slate-400 mt-1">20% ou 25%</div>
+                      </div>
                   </div>
               </div>
+
+              <!-- Charts Section -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-5">
+                      <h4 class="text-sm font-semibold text-slate-700 mb-4 text-center">Répartition du Chiffre d'Affaires</h4>
+                      <div class="h-56 flex justify-center">
+                          <p-chart type="doughnut" [data]="chartDataPie" [options]="chartOptionsPie" class="w-full h-full"></p-chart>
+                      </div>
+                  </div>
+                  <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-5">
+                      <h4 class="text-sm font-semibold text-slate-700 mb-4 text-center">Flux Financiers (Perso vs Société)</h4>
+                      <div class="h-56">
+                          <p-chart type="bar" [data]="chartDataBar" [options]="chartOptionsBar" class="w-full h-full"></p-chart>
+                      </div>
+                  </div>
+              </div>
+
           </div>
-      </section>
+      </div>
   
     </main>
   
-    <footer class="bg-white border-t border-slate-200 py-12 mt-12">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <span class="font-bold text-slate-800">PureFin</span>
-                <span class="text-slate-400">•</span>
-                <span class="text-sm text-slate-500">Simulateur SRL Belge</span>
+    <footer class="bg-white border-t border-slate-200 py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-slate-900 font-bold text-lg mb-2">PureFin</p>
+            <p class="text-slate-500 text-sm mb-6">Le compagnon financier des freelances belges.</p>
+            <div class="flex justify-center gap-6 text-sm text-slate-400">
+                <a href="#" class="hover:text-slate-600">Mentions légales</a>
+                <a href="#" class="hover:text-slate-600">Confidentialité</a>
+                <a href="#" class="hover:text-slate-600">Contact</a>
             </div>
-            <div class="text-sm text-slate-400">
-                © 2026 PureFin. Tous droits réservés.
-            </div>
+            <p class="text-xs text-slate-300 mt-8">
+                © 2026 PureFin. Simulation à titre indicatif. Consultez un comptable agréé.
+            </p>
         </div>
     </footer>
   </div>

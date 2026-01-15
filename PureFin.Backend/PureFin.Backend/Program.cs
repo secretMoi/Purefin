@@ -13,7 +13,6 @@ builder.Services.AddDbContext<PureFin.Backend.Data.AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(typeof(Program));
-builder.Services.AddScoped<PureFin.Backend.Features.Simulation.Services.ISimulationService, PureFin.Backend.Features.Simulation.Services.SimulationService>();
 
 var app = builder.Build();
 

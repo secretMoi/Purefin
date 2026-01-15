@@ -1,189 +1,383 @@
-
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, computed, signal, effect, OnInit, Inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ButtonModule } from 'primeng/button';
 import { InputNumberModule } from 'primeng/inputnumber';
-import { CheckboxModule } from 'primeng/checkbox';
 import { CardModule } from 'primeng/card';
-import { TableModule } from 'primeng/table';
+import { TooltipModule } from 'primeng/tooltip';
+import { ChartModule } from 'primeng/chart';
+import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
-import { SimulationService } from './simulation.service';
-import { SimulationRequest, SimulationResult } from './models/simulation.models';
+import 'chart.js/auto';
 
 @Component({
-    selector: 'app-simulation',
-    standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ButtonModule,
-        InputNumberModule,
-        CheckboxModule,
-        CardModule,
-        TableModule,
-        DividerModule
-    ],
-    template: `
-    <div class="p-6 max-w-6xl mx-auto">
-      <h1 class="text-3xl font-bold mb-6 text-slate-800">Financial Simulation</h1>
-      
-      <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-        <!-- Input Form -->
-        <div class="md:col-span-4">
-          <p-card header="Parameters" styleClass="h-full">
-            <div class="flex flex-col gap-4">
-              <div class="flex flex-col gap-2">
-                <label class="font-semibold text-slate-600">Company Annual Revenue (€)</label>
-                <p-inputNumber 
-                    [(ngModel)]="request.totalRevenue" 
-                    mode="decimal" 
-                    [minFractionDigits]="2" 
-                    [maxFractionDigits]="2" 
-                    suffix=" €"
-                    class="w-full" styleClass="w-full" />
-              </div>
-
-              <div class="flex flex-col gap-2">
-                <label class="font-semibold text-slate-600">Gross Monthly Salary (€)</label>
-                <p-inputNumber 
-                    [(ngModel)]="request.grossSalary" 
-                    mode="decimal" 
-                    [minFractionDigits]="2" 
-                    [maxFractionDigits]="2" 
-                    suffix=" €"
-                    class="w-full" styleClass="w-full" />
-              </div>
-
-              <p-divider></p-divider>
-              <h3 class="font-semibold text-slate-700">Perks & Benefits</h3>
-              
-              <div class="flex flex-col gap-3">
-                <div class="flex items-center gap-2">
-                    <p-checkbox [(ngModel)]="request.includeCar" [binary]="true" inputId="car"></p-checkbox>
-                    <label for="car">Company Car</label>
-                </div>
-                <div class="flex items-center gap-2">
-                    <p-checkbox [(ngModel)]="request.includeMealVouchers" [binary]="true" inputId="meal"></p-checkbox>
-                    <label for="meal">Meal Vouchers</label>
-                </div>
-                <div class="flex items-center gap-2">
-                    <p-checkbox [(ngModel)]="request.includeInternet" [binary]="true" inputId="net"></p-checkbox>
-                    <label for="net">Internet Allowance</label>
-                </div>
-                <div class="flex items-center gap-2">
-                    <p-checkbox [(ngModel)]="request.includeInsurance" [binary]="true" inputId="ins"></p-checkbox>
-                    <label for="ins">Hospitalization Insurance</label>
-                </div>
-                <div class="flex items-center gap-2">
-                    <p-checkbox [(ngModel)]="request.includeAccountant" [binary]="true" inputId="acc"></p-checkbox>
-                    <label for="acc">Accountant Fees</label>
-                </div>
-              </div>
-
-              <div class="mt-4">
-                <p-button label="Calculate Simulation" icon="pi pi-calculator" (onClick)="calculate()" [loading]="isLoading()" styleClass="w-full"></p-button>
-              </div>
-            </div>
-          </p-card>
-        </div>
-
-        <!-- Results -->
-        <div class="md:col-span-8">
-            @if (result(); as res) {
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <p-card header="Company Metrics" styleClass="h-full bg-blue-50">
-                        <div class="flex flex-col gap-2">
-                            <div class="flex justify-between">
-                                <span>Total Revenue:</span>
-                                <span class="font-bold">{{ res.companyRevenue | currency:'EUR' }}</span>
-                            </div>
-                            <div class="flex justify-between text-red-600">
-                                <span>Total Expenses:</span>
-                                <span>-{{ res.companyExpenses | currency:'EUR' }}</span>
-                            </div>
-                            <div class="flex justify-between text-red-600">
-                                <span>Corporate Tax (20%):</span>
-                                <span>-{{ res.companyTax | currency:'EUR' }}</span>
-                            </div>
-                            <p-divider></p-divider>
-                            <div class="flex justify-between text-lg text-blue-800 font-bold">
-                                <span>Net Profit (Reserves):</span>
-                                <span>{{ res.netCompanyProfit | currency:'EUR' }}</span>
-                            </div>
-                        </div>
-                    </p-card>
-
-                    <p-card header="Director Personal" styleClass="h-full bg-green-50">
-                         <div class="flex flex-col gap-2">
-                            <div class="flex justify-between">
-                                <span>Gross Salary:</span>
-                                <span class="font-bold">{{ res.personalGrossSalary | currency:'EUR' }}</span>
-                            </div>
-                            <div class="flex justify-between text-red-600">
-                                <span>ONSS (13.07%):</span>
-                                <span>-{{ res.personalSocialSecurity | currency:'EUR' }}</span>
-                            </div>
-                             <div class="flex justify-between text-red-600">
-                                <span>Income Tax (IPP):</span>
-                                <span>-{{ res.personalTax | currency:'EUR' }}</span>
-                            </div>
-                            <p-divider></p-divider>
-                            <div class="flex justify-between text-lg text-green-800 font-bold">
-                                <span>Net Salary:</span>
-                                <span>{{ res.personalNetSalary | currency:'EUR' }}</span>
-                            </div>
-                        </div>
-                    </p-card>
-                </div>
-                
-                <p-card header="Total Optimization Summary">
-                    <div class="text-center p-4">
-                        <div class="text-slate-500 mb-1">Total Package Value (incl. Perks)</div>
-                        <div class="text-4xl font-bold text-slate-800">{{ res.totalPackageValue | currency:'EUR' }}</div>
-                        <div class="text-sm text-slate-400 mt-2">Active Perks: {{ res.appliedPerks.join(', ') || 'None' }}</div>
-                    </div>
-                </p-card>
-            } @else {
-                <div class="flex items-center justify-center h-full text-slate-400 bg-white rounded-xl border border-dashed border-slate-300 min-h-[400px]">
-                    <div class="text-center">
-                        <i class="pi pi-chart-bar text-4xl mb-4"></i>
-                        <p>Fill parameters and click "Calculate" to see results.</p>
-                    </div>
-                </div>
-            }
-        </div>
-      </div>
-    </div>
-  `
+  selector: 'app-simulation',
+  standalone: true,
+  imports: [
+    CommonModule,
+    FormsModule,
+    InputNumberModule,
+    CardModule,
+    TooltipModule,
+    ChartModule,
+    ButtonModule,
+    DividerModule
+  ],
+  templateUrl: './simulation.component.html',
+  styleUrls: [] // Using Tailwind classes directly in HTML
 })
-export class SimulationComponent {
-    private simulationService = inject(SimulationService);
+export class SimulationComponent implements OnInit {
 
-    request: SimulationRequest = {
-        totalRevenue: 100000,
-        grossSalary: 2500,
-        includeCar: false,
-        includeMealVouchers: false,
-        includeInternet: false,
-        includeInsurance: false,
-        includeAccountant: true
-    };
+  // --- Inputs ---
+  
+  // Revenues
+  revenue = signal<number>(120000);
+  grossSalaryMonthly = signal<number>(4000);
 
-    result = signal<SimulationResult | null>(null);
-    isLoading = signal<boolean>(false);
+  // Deductibles
+  insuranceAnnual = signal<number>(2000);
+  phoneMonthly = signal<number>(50);
+  internetMonthly = signal<number>(50);
+  carMonthly = signal<number>(600);
+  mealVouchersMonthly = signal<number>(160);
+  restaurantMonthly = signal<number>(200);
+  pensionAnnual = signal<number>(3000);
+  otherAnnual = signal<number>(5000);
 
-    calculate() {
-        this.isLoading.set(true);
-        this.simulationService.calculate(this.request).subscribe({
-            next: (res) => {
-                this.result.set(res);
-                this.isLoading.set(false);
-            },
-            error: (err) => {
-                console.error(err);
-                this.isLoading.set(false);
-            }
-        });
+  // --- Calculations (Belgian Fiscal Rules 2024/2025) ---
+
+  // Annualized Values
+  grossSalaryAnnual = computed(() => this.grossSalaryMonthly() * 12);
+  
+  // ATN (Benefits in Kind) Estimation - Increases Personal Tax Base
+  // Simplified estimations if company pays for these
+  atnPhone = computed(() => this.phoneMonthly() > 0 ? 48 : 0); // 4€/month
+  atnInternet = computed(() => this.internetMonthly() > 0 ? 60 : 0); // 5€/month
+  // ATN Car: Simplified estimation based on monthly cost. 
+  // Real formula requires CO2/Catalogue Value/Age. 
+  // Assumption: Electric car ~ high value but low emission. 
+  // Let's assume ATN is roughly 15% of the monthly lease cost as a proxy for the 'benefit'.
+  // Or better, a standard minimum + value. 
+  // For a 600€ lease, let's estimate ATN at ~150€/month (~1800/year).
+  atnCar = computed(() => this.carMonthly() > 0 ? 1800 : 0); 
+
+  totalAtnAnnual = computed(() => this.atnPhone() + this.atnInternet() + this.atnCar());
+
+  // Social Contributions (Independent)
+  // Base = Gross + ATN
+  // Rate ~20.5%
+  // Max Ceiling 2024: Income > ~107,000, max contribution ~19,000.
+  // Admin fees ~4% usually added.
+  socialContributions = computed(() => {
+    const base = this.grossSalaryAnnual() + this.totalAtnAnnual();
+    const rate = 0.205;
+    const ceilingIncome = 107000; 
+    
+    let contribution = 0;
+    if (base > ceilingIncome) {
+        contribution = ceilingIncome * rate;
+    } else {
+        contribution = base * rate;
     }
+    
+    // Add admin fees (~4% of the contribution)
+    return contribution * 1.04;
+  });
+
+  // Professional Expenses (Frais Professionnels Forfaitaires) - Personal Side
+  // 3% of (Gross - SocCont), Max ~2,910€ (2024)
+  professionalExpensesPersonal = computed(() => {
+    const base = this.grossSalaryAnnual() + this.totalAtnAnnual() - this.socialContributions();
+    const calculated = base * 0.03;
+    return Math.min(calculated, 2910);
+  });
+
+  // Taxable Income (Personal)
+  // Gross + ATN - SocCont - ProfExpenses
+  taxableIncome = computed(() => {
+    const val = this.grossSalaryAnnual() + this.totalAtnAnnual() - this.socialContributions() - this.professionalExpensesPersonal();
+    return Math.max(0, val);
+  });
+
+  // IPP (Personal Income Tax)
+  ipp = computed(() => {
+    let income = this.taxableIncome();
+    let tax = 0;
+
+    // Brackets 2024 (Indexed)
+    // 0 - 15,200: 25%
+    // 15,200 - 26,830: 40%
+    // 26,830 - 46,440: 45%
+    // > 46,440: 50%
+    
+    const b1 = 15200;
+    const b2 = 26830;
+    const b3 = 46440;
+
+    if (income > b3) {
+        tax += (income - b3) * 0.50;
+        income = b3;
+    }
+    if (income > b2) {
+        tax += (income - b2) * 0.45;
+        income = b2;
+    }
+    if (income > b1) {
+        tax += (income - b1) * 0.40;
+        income = b1;
+    }
+    if (income > 0) {
+        tax += income * 0.25;
+    }
+
+    // Tax Free Allowance (Quotité Exemptée)
+    // Base ~10,160. Tax credit = Base * 25% (lowest bracket)
+    const exemption = 10160;
+    const taxCredit = exemption * 0.25;
+    
+    tax = Math.max(0, tax - taxCredit);
+
+    // Municipal Tax (Taxe Communale) ~7%
+    tax = tax * 1.07;
+
+    return tax;
+  });
+
+  // Net Personal Income
+  // Formula: Gross - SocCont - IPP
+  // Note: ATN is virtual, it increased the tax base, but is not "cash" deducted from salary.
+  // However, if the company pays the ATN items, the user "gets" them. 
+  // "Net en poche" usually refers to Cash.
+  netAnnual = computed(() => {
+    return this.grossSalaryAnnual() - this.socialContributions() - this.ipp();
+  });
+
+  netMonthly = computed(() => {
+    return this.netAnnual() / 12;
+  });
+
+
+  // --- Company Situation ---
+
+  // Deductibles (Company Expenses)
+  // Note: Some are partially deductible (DNA - Dépenses Non Admises)
+  
+  // Meal Vouchers: Employer cost input ~160.
+  // Deductible: 2€/ticket. Employer contribution max ~6.91. 
+  // If input is 160, let's assume fully deductible for simplicity or apply slight DNA.
+  // Actually, usually 2€/ticket is deductible, rest is DNA? No, 2€/ticket is Tax Deductible Amount per ticket? 
+  // Correction: Employer contribution (max 6.91) is deductible.
+  // Let's assume input is fully compliant.
+  
+  // Restaurant: 69% Deductible. 31% DNA.
+  restaurantDeductible = computed(() => (this.restaurantMonthly() * 12) * 0.69);
+  restaurantDNA = computed(() => (this.restaurantMonthly() * 12) * 0.31);
+
+  // Car: Assume 100% deductible (Electric/Hybrid optim)
+  // Phone/Internet: 100% Deductible (Professional use)
+  
+  totalDeductiblesAnnual = computed(() => {
+    // Cash out for company
+    return this.insuranceAnnual() + 
+           (this.phoneMonthly() * 12) +
+           (this.internetMonthly() * 12) +
+           (this.carMonthly() * 12) +
+           (this.mealVouchersMonthly() * 12) +
+           (this.restaurantMonthly() * 12) + // Full cash out
+           this.pensionAnnual() + 
+           this.otherAnnual();
+  });
+
+  // Total Cash Expenses for Company
+  totalCompanyExpenses = computed(() => {
+    // Gross Salary + Social Contributions (if company pays? No, usually personal debt but company can advance via account current)
+    // In this model, Gross Salary is the cost. Soc Contribs are paid by individual from Gross.
+    return this.grossSalaryAnnual() + this.totalDeductiblesAnnual();
+  });
+
+  // Taxable Profit (Base Imposable ISOC)
+  // Revenue - Expenses + DNA
+  taxableProfit = computed(() => {
+    const profit = this.revenue() - this.totalCompanyExpenses();
+    // Add back DNA
+    const dna = this.restaurantDNA(); // + others if any
+    return Math.max(0, profit + dna);
+  });
+
+  // ISOC (Corporate Tax)
+  corpTax = computed(() => {
+    const profit = this.taxableProfit();
+    let tax = 0;
+    
+    // Reduced Rate Condition: Salary >= 45,000 (standard rule)
+    // Or Salary >= Result (if Result < 45k)
+    // Let's use strict 45k rule for simplicity or check logic.
+    const minSalaryRule = 45000;
+    const isReducedRate = this.grossSalaryAnnual() >= minSalaryRule;
+
+    if (isReducedRate) {
+        // 20% on first 100k
+        if (profit <= 100000) {
+            tax = profit * 0.20;
+        } else {
+            tax = (100000 * 0.20) + ((profit - 100000) * 0.25);
+        }
+    } else {
+        // Standard 25%
+        tax = profit * 0.25;
+    }
+    
+    return tax;
+  });
+
+  reserves = computed(() => {
+    // What is left in company after paying Expenses and ISOC
+    // Starting Cash: Revenue
+    // Cash Out: Expenses (Salary + Deductibles)
+    // Cash Out: ISOC
+    return this.revenue() - this.totalCompanyExpenses() - this.corpTax();
+  });
+
+  // --- Charts Data ---
+  
+  chartDataPie: any;
+  chartOptionsPie: any;
+  chartDataBar: any;
+  chartOptionsBar: any;
+
+  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    effect(() => {
+      this.updateCharts();
+    });
+  }
+
+  ngOnInit() {
+    this.initChartOptions();
+    this.updateCharts();
+  }
+
+  initChartOptions() {
+      if (isPlatformBrowser(this.platformId)) {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const textColor = documentStyle.getPropertyValue('--text-color');
+
+        this.chartOptionsPie = {
+            plugins: {
+                legend: {
+                    labels: {
+                        usePointStyle: true,
+                        color: textColor
+                    },
+                    position: 'bottom'
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false
+        };
+
+        this.chartOptionsBar = {
+            indexAxis: 'y',
+            maintainAspectRatio: false,
+            aspectRatio: 0.8,
+            plugins: {
+                legend: {
+                    labels: {
+                        color: textColor
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    ticks: {
+                        color: textColor,
+                        font: {
+                            weight: 500
+                        }
+                    },
+                    grid: {
+                        color: '#e5e7eb',
+                        drawBorder: false
+                    }
+                },
+                y: {
+                    ticks: {
+                        color: textColor
+                    },
+                    grid: {
+                        color: '#e5e7eb',
+                        drawBorder: false
+                    }
+                }
+            }
+        };
+      }
+  }
+
+  updateCharts() {
+      if (isPlatformBrowser(this.platformId)) {
+        const documentStyle = getComputedStyle(document.documentElement);
+        const colorNet = '#10b981'; // Emerald 500
+        const colorSoc = '#f59e0b'; // Amber 500
+        const colorIPP = '#64748b'; // Slate 500
+        const colorExp = '#3b82f6'; // Blue 500
+        const colorTax = '#1e293b'; // Slate 800
+        const colorRes = '#14b8a6'; // Teal 500
+        
+        // Pie Chart: Distribution of Revenue
+        this.chartDataPie = {
+            labels: ['Salaire Net', 'Cotisations Soc.', 'IPP', 'Frais Déductibles', 'Impôt Société', 'Réserves'],
+            datasets: [
+                {
+                    data: [
+                        Math.round(this.netAnnual()),
+                        Math.round(this.socialContributions()),
+                        Math.round(this.ipp()),
+                        Math.round(this.totalDeductiblesAnnual()),
+                        Math.round(this.corpTax()),
+                        Math.round(this.reserves())
+                    ],
+                    backgroundColor: [
+                        colorNet,
+                        colorSoc,
+                        colorIPP,
+                        colorExp,
+                        colorTax,
+                        colorRes
+                    ],
+                    hoverBackgroundColor: [
+                        colorNet,
+                        colorSoc,
+                        colorIPP,
+                        colorExp,
+                        colorTax,
+                        colorRes
+                    ]
+                }
+            ]
+        };
+
+        // Bar Chart: Comparison Personal vs Company (Simplified view)
+        // "Personnel" = Net Income
+        // "Société" = Reserves + Expenses (benefit) ? Or just Reserves?
+        // Let's mimic the screenshot: Personnel (Net) vs Société (Orange/Green bar).
+        // Let's do:
+        // Personnel: Net + IPP + SocCont (Total Cost)
+        // Société: Reserves + ISOC + Expenses
+        
+        this.chartDataBar = {
+            labels: ['Personnel', 'Société'],
+            datasets: [
+                {
+                    label: 'Revenu Net / Réserves',
+                    backgroundColor: colorNet,
+                    data: [this.netAnnual(), this.reserves()]
+                },
+                {
+                    label: 'Charges / Taxes',
+                    backgroundColor: colorSoc,
+                    data: [this.socialContributions() + this.ipp(), this.corpTax() + this.totalDeductiblesAnnual()]
+                }
+            ]
+        };
+      }
+  }
 }

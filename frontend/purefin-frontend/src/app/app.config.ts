@@ -4,9 +4,13 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { registerLocaleData } from '@angular/common';
+import localeFrBe from '@angular/common/locales/fr-BE';
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+
+registerLocaleData(localeFrBe);
 
 export const appConfig: ApplicationConfig = {
   providers: [

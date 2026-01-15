@@ -35,7 +35,9 @@ body {
 
 /* PrimeNG Overrides for cleaner UI */
 .p-inputnumber-input {
-    @apply font-sans text-slate-700 bg-white;
+    @apply font-sans;
+    background-color: #ffffff !important;
+    color: #334155 !important; /* slate-700 */
     border-radius: 0.5rem !important;
     padding-top: 0.625rem !important;
     padding-bottom: 0.625rem !important;

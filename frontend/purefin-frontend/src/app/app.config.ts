@@ -21,7 +21,10 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withFetch()),
     providePrimeNG({ 
         theme: {
-            preset: Aura
+            preset: Aura,
+            options: {
+                darkModeSelector: false
+            }
         }
     })
   ]

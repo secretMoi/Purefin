@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,18 +10,18 @@ import { MessageModule } from 'primeng/message';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
-    selector: 'app-register',
-    imports: [
-        CommonModule,
-        FormsModule,
-        InputTextModule,
-        ButtonModule,
-        PasswordModule,
-        CardModule,
-        MessageModule,
-        RouterLink
-    ],
-    template: `
+  selector: 'app-register',
+  imports: [
+    CommonModule,
+    FormsModule,
+    InputTextModule,
+    ButtonModule,
+    PasswordModule,
+    CardModule,
+    MessageModule,
+    RouterLink
+  ],
+  template: `
     <div class="min-h-screen bg-slate-900 flex items-center justify-center px-4">
       <div class="w-full max-w-md">
         <!-- Logo -->
@@ -119,53 +119,52 @@ import { AuthService } from '../../../core/services/auth.service';
         </div>
       </div>
     </div>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RegisterComponent {
-    firstName = '';
-    lastName = '';
-    email = '';
-    password = '';
-    loading = signal(false);
-    error = signal<string | null>(null);
+  private readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
-    constructor(
-        private authService: AuthService,
-        private router: Router
-    ) { }
+  firstName = '';
+  lastName = '';
+  email = '';
+  password = '';
+  readonly loading = signal(false);
+  readonly error = signal<string | null>(null);
 
-    onSubmit(): void {
-        if (!this.firstName || !this.lastName || !this.email || !this.password) {
-            this.error.set('Veuillez remplir tous les champs.');
-            return;
-        }
-
-        if (this.password.length < 6) {
-            this.error.set('Le mot de passe doit contenir au moins 6 caractères.');
-            return;
-        }
-
-        this.loading.set(true);
-        this.error.set(null);
-
-        this.authService.register({
-            email: this.email,
-            password: this.password,
-            firstName: this.firstName,
-            lastName: this.lastName
-        }).subscribe({
-            next: (response) => {
-                this.loading.set(false);
-                if (response) {
-                    this.router.navigate(['/']);
-                } else {
-                    this.error.set('Un compte avec cet email existe déjà.');
-                }
-            },
-            error: () => {
-                this.loading.set(false);
-                this.error.set('Une erreur est survenue. Veuillez réessayer.');
-            }
-        });
+  onSubmit(): void {
+    if (!this.firstName || !this.lastName || !this.email || !this.password) {
+      this.error.set('Veuillez remplir tous les champs.');
+      return;
     }
+
+    if (this.password.length < 6) {
+      this.error.set('Le mot de passe doit contenir au moins 6 caractères.');
+      return;
+    }
+
+    this.loading.set(true);
+    this.error.set(null);
+
+    this.authService.register({
+      email: this.email,
+      password: this.password,
+      firstName: this.firstName,
+      lastName: this.lastName
+    }).subscribe({
+      next: (response) => {
+        this.loading.set(false);
+        if (response) {
+          this.router.navigate(['/']);
+        } else {
+          this.error.set('Un compte avec cet email existe déjà.');
+        }
+      },
+      error: () => {
+        this.loading.set(false);
+        this.error.set('Une erreur est survenue. Veuillez réessayer.');
+      }
+    });
+  }
 }

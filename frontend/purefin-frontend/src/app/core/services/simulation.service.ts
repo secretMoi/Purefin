@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SimulationDto, SaveSimulationRequest, SimulationListResponse } from '../models/simulation.model';
@@ -11,10 +11,8 @@ import { SimulationCalculator, SimulationData } from '../logic/simulation-calcul
 export class SimulationService {
     private readonly API_URL = 'http://localhost:5209/api/simulation';
 
-    constructor(
-        private http: HttpClient,
-        private authService: AuthService
-    ) { }
+    private readonly http = inject(HttpClient);
+    private readonly authService = inject(AuthService);
 
     private getHeaders(): HttpHeaders {
         const token = this.authService.getToken();

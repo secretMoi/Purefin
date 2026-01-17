@@ -1,4 +1,4 @@
-import { Component, computed, signal, effect, OnInit, Inject, PLATFORM_ID, inject } from '@angular/core';
+import { Component, computed, signal, effect, OnInit, PLATFORM_ID, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -30,9 +30,11 @@ import { SimulationService } from '../../core/services/simulation.service';
     ],
     providers: [MessageService],
     templateUrl: './simulation.component.html',
-    styleUrls: [] // Using Tailwind classes directly in HTML
+    styleUrls: [], // Using Tailwind classes directly in HTML
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SimulationComponent implements OnInit {
+    private readonly platformId = inject(PLATFORM_ID);
 
     // --- Inputs ---
 
@@ -263,7 +265,7 @@ export class SimulationComponent implements OnInit {
     simulationName = signal('Ma Simulation');
     currentSimulationId = signal<string | null>(null);
 
-    constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+    constructor() {
         effect(() => {
             this.updateCharts();
         });

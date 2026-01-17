@@ -1,4 +1,4 @@
-import { Injectable, signal, computed, PLATFORM_ID, Inject } from '@angular/core';
+import { Injectable, signal, computed, PLATFORM_ID, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { isPlatformBrowser } from '@angular/common';
 import { Observable, tap, catchError, of } from 'rxjs';
@@ -18,10 +18,10 @@ export class AuthService {
     isAuthenticated = computed(() => !!this.token());
     user = computed(() => this.currentUser());
 
-    constructor(
-        private http: HttpClient,
-        @Inject(PLATFORM_ID) private platformId: Object
-    ) {
+    private readonly http = inject(HttpClient);
+    private readonly platformId = inject(PLATFORM_ID);
+
+    constructor() {
         this.loadFromStorage();
     }
 

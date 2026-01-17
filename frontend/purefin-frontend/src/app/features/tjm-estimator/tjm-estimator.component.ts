@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, signal, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { SimulationService } from '../../core/services/simulation.service';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
@@ -25,16 +25,17 @@ import { MessageService } from 'primeng/api';
         CheckboxModule,
         TooltipModule,
         AccordionModule,
-        ToastModule
+        ToastModule,
+        RouterLink
     ],
     providers: [MessageService],
     templateUrl: './tjm-estimator.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TjmEstimatorComponent {
-    simulationService = inject(SimulationService);
-    router = inject(Router);
-    messageService = inject(MessageService);
+    private readonly simulationService = inject(SimulationService);
+    private readonly router = inject(Router);
+    private readonly messageService = inject(MessageService);
 
     // === Core Inputs ===
     targetNetMonthly = signal<number>(3000);

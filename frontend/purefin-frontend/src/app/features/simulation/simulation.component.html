@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-emerald-100 selection:text-emerald-900">
 
     <!-- Header -->
@@ -19,10 +20,28 @@
                 <a href="#" class="hover:text-emerald-600 transition-colors">Contact</a>
             </nav>
             <div class="flex items-center gap-3">
-                <button
-                    class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2">Connexion</button>
-                <button
-                    class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-xl shadow-slate-900/10">S'inscrire</button>
+                @if (authService.isAuthenticated()) {
+                <div class="flex items-center gap-3">
+                    <button (click)="saveSimulation()"
+                        class="flex items-center gap-2 text-sm font-medium text-emerald-600 hover:text-emerald-700 transition-colors px-3 py-2 bg-emerald-50 rounded-lg">
+                        <i class="pi pi-save"></i>
+                        Sauvegarder
+                    </button>
+                    <div class="flex items-center gap-2 text-sm text-slate-600">
+                        <i class="pi pi-user-circle text-lg"></i>
+                        <span>{{ authService.user()?.firstName }}</span>
+                    </div>
+                    <button (click)="logout()"
+                        class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2">
+                        Déconnexion
+                    </button>
+                </div>
+                } @else {
+                <a routerLink="/login"
+                    class="text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors px-3 py-2">Connexion</a>
+                <a routerLink="/register"
+                    class="bg-slate-900 hover:bg-slate-800 text-white text-sm font-medium px-4 py-2 rounded-lg transition-all shadow-md hover:shadow-xl shadow-slate-900/10">S'inscrire</a>
+                }
             </div>
         </div>
     </header>
@@ -107,7 +126,8 @@
                                     pTooltip="Montant total facturé sur l'année hors TVA." tooltipPosition="left"></i>
                             </label>
                             <p-inputNumber [(ngModel)]="revenue" mode="currency" currency="EUR" locale="fr-BE"
-                                inputStyleClass="w-full text-lg font-semibold text-slate-800" styleClass="w-full"></p-inputNumber>
+                                inputStyleClass="w-full text-lg font-semibold text-slate-800"
+                                styleClass="w-full"></p-inputNumber>
                         </div>
                         <div class="space-y-2">
                             <label class="text-sm font-medium text-slate-700 flex justify-between">
@@ -326,6 +346,57 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Waterfall Chart - Full Width -->
+                <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-5">
+                    <h4 class="text-sm font-semibold text-slate-700 mb-4 text-center">
+                        <i class="pi pi-arrow-down-right text-emerald-500 mr-2"></i>
+                        Du Chiffre d'Affaires au Net en Poche
+                    </h4>
+                    <div class="h-72">
+                        <p-chart type="bar" [data]="chartDataWaterfall" [options]="chartOptionsWaterfall"
+                            class="w-full h-full"></p-chart>
+                    </div>
+                </div>
+
+                <!-- Saved Simulations (only if authenticated) -->
+                @if (authService.isAuthenticated() && savedSimulations().length > 0) {
+                <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                    <div class="px-6 py-5 border-b border-slate-100 bg-slate-50/50 flex justify-between items-center">
+                        <div>
+                            <h3 class="font-semibold text-slate-800">Mes Simulations</h3>
+                            <p class="text-xs text-slate-500 mt-0.5">Charger une simulation précédente</p>
+                        </div>
+                        <div class="bg-purple-100 p-2 rounded-lg text-purple-600">
+                            <i class="pi pi-history"></i>
+                        </div>
+                    </div>
+                    <div class="divide-y divide-slate-100">
+                        @for (sim of savedSimulations(); track sim.id) {
+                        <div class="px-6 py-4 flex justify-between items-center hover:bg-slate-50 transition-colors cursor-pointer"
+                            (click)="loadSimulation(sim)">
+                            <div>
+                                <p class="font-medium text-slate-800">{{ sim.name }}</p>
+                                <p class="text-xs text-slate-500">
+                                    {{ sim.calculatedNetAnnual | currency:'EUR':'symbol':'1.0-0':'fr-BE' }} net/an
+                                    - Créée le {{ sim.createdAt | date:'dd/MM/yyyy' }}
+                                </p>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button (click)="loadSimulation(sim); $event.stopPropagation()"
+                                    class="text-emerald-600 hover:text-emerald-700 p-2 rounded-lg hover:bg-emerald-50 transition-colors">
+                                    <i class="pi pi-upload"></i>
+                                </button>
+                                <button (click)="deleteSimulation(sim.id); $event.stopPropagation()"
+                                    class="text-red-500 hover:text-red-600 p-2 rounded-lg hover:bg-red-50 transition-colors">
+                                    <i class="pi pi-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
 
             </div>
         </div>

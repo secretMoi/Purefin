@@ -547,24 +547,20 @@ export const routes: Routes = [
 
 ### 4.1 Règles de Séparation
 
+**Pour ce projet, toujours utiliser des fichiers HTML séparés.**
+
 | Taille du Template | Recommandation |
 |-------------------|----------------|
-| < 20 lignes | Template inline (`template:`) |
-| 20-50 lignes | Au choix selon complexité |
-| > 50 lignes | Fichier séparé (`.html`) |
+| Tous les composants | Fichier séparé (`.html`) - **OBLIGATOIRE** |
+
+> **Note:** Bien que les petits templates (<20 lignes) puissent techniquement être en inline dans d'autres projets, ce projet impose la séparation systématique pour une meilleure maintenabilité et cohérence.
 
 ```typescript
-// ✅ Petit composant - template inline
+// ✅ Composant avec fichier HTML séparé (STANDARD pour ce projet)
 @Component({
   selector: 'app-status-badge',
-  template: `
-    <span 
-      class="px-2 py-1 rounded-full text-xs font-medium"
-      [class]="statusClass()"
-    >
-      {{ label() }}
-    </span>
-  `
+  templateUrl: './status-badge.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StatusBadgeComponent {
   readonly status = input.required<'active' | 'pending' | 'inactive'>();
@@ -584,15 +580,13 @@ export class StatusBadgeComponent {
   });
 }
 
-// ✅ Grand composant - fichier séparé
-@Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
-})
-export class DashboardComponent {
-  // ...
-}
+// Fichier status-badge.component.html:
+// <span 
+//   class="px-2 py-1 rounded-full text-xs font-medium"
+//   [class]="statusClass()"
+// >
+//   {{ label() }}
+// </span>
 ```
 
 ### 4.2 Bonnes Pratiques Templates

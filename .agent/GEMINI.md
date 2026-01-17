@@ -35,3 +35,4 @@ L'IA DOIT consulter et appliquer les guidelines définies dans :
 6. **Utiliser le control flow moderne** (`@if`, `@for`, `@switch`)
 7. **Éviter la logique dans les templates**
 8. **Toujours utiliser `track` avec `@for`**
+9. **Toujours séparer les templates HTML** dans des fichiers `.html` distincts (pas de template inline)

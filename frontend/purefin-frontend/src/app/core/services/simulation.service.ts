@@ -49,6 +49,33 @@ export class SimulationService {
     }
 
     /**
+     * Calculates simulation results from input parameters.
+     * Returns all computed fiscal values (net, taxes, etc.)
+     */
+    calculateSimulation(params: Partial<SimulationData>): {
+        netAnnual: number;
+        socialContributions: number;
+        ipp: number;
+        corpTax: number;
+        reserves: number;
+    } {
+        const data: SimulationData = {
+            revenue: params.revenue || 0,
+            grossSalaryMonthly: params.grossSalaryMonthly || 2000,
+            insuranceAnnual: params.insuranceAnnual || 0,
+            phoneMonthly: params.phoneMonthly || 0,
+            internetMonthly: params.internetMonthly || 0,
+            carMonthly: params.carMonthly || 0,
+            mealVouchersMonthly: params.mealVouchersMonthly || 0,
+            restaurantMonthly: params.restaurantMonthly || 0,
+            pensionAnnual: params.pensionAnnual || 0,
+            otherAnnual: params.otherAnnual || 0
+        };
+
+        return SimulationCalculator.calculate(data);
+    }
+
+    /**
      * Finds the required Revenue (Annual) to achieve the target Net Annual Income
      * using a binary search algorithm.
      */

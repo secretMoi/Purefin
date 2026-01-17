@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-slate-50 relative pb-20">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50/30 relative pb-20">
     <!-- Header -->
     <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
@@ -9,71 +9,346 @@
             </div>
             <nav class="hidden md:flex items-center gap-8">
                 <a href="javascript:void(0)" (click)="router.navigate(['/'])"
-                    class="text-sm font-medium text-slate-500 hover:text-emerald-500 transition-colors">Simulation</a>
-                <a href="javascript:void(0)" class="text-sm font-medium text-emerald-600">Estimateur TJM</a>
+                    class="text-sm font-medium text-slate-500 hover:text-emerald-500 transition-colors">Simulateur</a>
+                <a href="javascript:void(0)"
+                    class="text-sm font-medium text-emerald-600 border-b-2 border-emerald-500 pb-1">Estimateur TJM</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-3xl mx-auto px-6 pt-12">
-        <div class="text-center mb-10">
-            <h1 class="text-3xl font-bold text-slate-900 mb-3">Combien facturer pour atteindre vos objectifs ?</h1>
-            <p class="text-slate-500">Définissez votre salaire net cible, nous calculons votre TJM idéal.</p>
+    <p-toast></p-toast>
+
+    <main class="max-w-5xl mx-auto px-6 pt-12">
+        <!-- Hero Section -->
+        <div class="text-center mb-12">
+            <div
+                class="inline-flex items-center gap-2 bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                <i class="pi pi-calculator"></i>
+                <span>Simulateur Inversé</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Combien facturer pour atteindre vos objectifs
+                ?</h1>
+            <p class="text-lg text-slate-500 max-w-2xl mx-auto">Définissez votre salaire net cible et vos options
+                d'optimisation. Nous calculons votre TJM idéal.</p>
         </div>
 
-        <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
-            <div class="p-8">
-                <!-- Target Input -->
-                <div class="mb-10">
-                    <label class="block text-sm font-medium text-slate-700 mb-2">Je veux gagner net par mois (après
-                        impôts)</label>
-                    <div class="relative">
-                        <p-inputNumber [(ngModel)]="targetNetMonthly" mode="currency" currency="EUR" locale="fr-BE"
-                            [min]="1000" [max]="10000" styleClass="w-full" class="w-full block"
-                            [inputStyle]="{'font-size': '2rem', 'font-weight': '700', 'color': '#10b981', 'padding': '1rem', 'width': '100%', 'text-align': 'center'}"></p-inputNumber>
-                    </div>
-                    <div class="mt-6 px-4">
-                        <p-slider [(ngModel)]="targetNetMonthly" [min]="1500" [max]="8000" [step]="100"
-                            styleClass="w-full"></p-slider>
+        <!-- Main Content Grid -->
+        <div class="grid lg:grid-cols-3 gap-8">
+            <!-- Left Column: Inputs -->
+            <div class="lg:col-span-2 space-y-6">
+                <!-- Target Net Card -->
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                    <div class="p-8">
+                        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center">
+                                <i class="pi pi-wallet text-emerald-600"></i>
+                            </div>
+                            Objectif de Revenu
+                        </h2>
+
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-slate-700 mb-2">Je veux gagner net par mois
+                                (après impôts)</label>
+                            <div class="relative">
+                                <p-inputNumber [(ngModel)]="targetNetMonthly" mode="currency" currency="EUR"
+                                    locale="fr-BE" [min]="1000" [max]="15000" styleClass="w-full" class="w-full block"
+                                    [inputStyle]="{'font-size': '2.5rem', 'font-weight': '700', 'color': '#10b981', 'padding': '1rem', 'width': '100%', 'text-align': 'center'}"></p-inputNumber>
+                            </div>
+                            <div class="mt-6 px-4">
+                                <p-slider [(ngModel)]="targetNetMonthly" [min]="1500" [max]="10000" [step]="100"
+                                    styleClass="w-full"></p-slider>
+                            </div>
+                        </div>
+
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-slate-50 p-4 rounded-2xl">
+                                <label class="block text-sm font-medium text-slate-600 mb-2">Jours facturés / an</label>
+                                <p-inputNumber [(ngModel)]="daysWorkedPerYear" [min]="100" [max]="300" suffix=" jours"
+                                    styleClass="w-full"></p-inputNumber>
+                                <p class="text-xs text-slate-400 mt-2">Standard: 220 jours (hors vacances/maladies)</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-2xl">
+                                <label class="block text-sm font-medium text-slate-600 mb-2">Salaire brut
+                                    mensuel</label>
+                                <p-inputNumber [(ngModel)]="grossSalaryMonthly" mode="currency" currency="EUR"
+                                    locale="fr-BE" [min]="1500" [max]="8000" styleClass="w-full"></p-inputNumber>
+                                <p class="text-xs text-slate-400 mt-2">Min ~3750€/mois pour taux réduit ISOC</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Days Worked Argument -->
-                <div
-                    class="mb-10 flex flex-col md:flex-row gap-6 items-center justify-center bg-slate-50 p-4 rounded-2xl">
-                    <div class="text-sm text-slate-600">Jours facturés / an</div>
-                    <div class="w-32">
-                        <p-inputNumber [(ngModel)]="daysWorkedPerYear" [min]="100" [max]="300"
-                            suffix=" j"></p-inputNumber>
-                    </div>
-                    <div class="text-xs text-slate-400 max-w-[200px]">
-                        Standard: 220 jours.
-                        Enlevez vacances et maladies.
+                <!-- TVA Card -->
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                    <div class="p-8">
+                        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                                <i class="pi pi-percentage text-blue-600"></i>
+                            </div>
+                            TVA
+                        </h2>
+
+                        <div class="flex items-center gap-4 mb-6">
+                            <p-checkbox [(ngModel)]="isVatExempt" [binary]="true" inputId="vatExempt"></p-checkbox>
+                            <label for="vatExempt" class="text-sm font-medium text-slate-700 cursor-pointer">
+                                Franchise TVA (CA &lt; 25 000€)
+                            </label>
+                            <i class="pi pi-info-circle text-slate-400"
+                                pTooltip="Pas de TVA à facturer ni à récupérer. Simplifie la comptabilité."></i>
+                        </div>
+
+                        @if (!isVatExempt()) {
+                        <div class="bg-slate-50 p-4 rounded-2xl">
+                            <label class="block text-sm font-medium text-slate-600 mb-2">Taux de TVA</label>
+                            <p-inputNumber [(ngModel)]="vatRate" suffix=" %" [min]="0" [max]="21"
+                                styleClass="w-full"></p-inputNumber>
+                            <p class="text-xs text-slate-400 mt-2">Standard: 21% pour les services IT</p>
+                        </div>
+                        }
                     </div>
                 </div>
 
-                <!-- Result -->
-                <div class="text-center border-t border-slate-100 pt-8">
-                    <p class="text-slate-500 font-medium mb-1">Votre TJM (Tarif Journalier Moyen) conseillé</p>
-                    <div class="text-5xl font-black text-slate-900 mb-2">
-                        {{ requiredTjm() | number:'1.0-0':'fr-BE' }} € <span
-                            class="text-2xl text-slate-400 font-medium">/ jour</span>
-                    </div>
-                    <div
-                        class="inline-block bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium mb-8">
-                        CA requis : {{ requiredRevenueAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }} / an
-                    </div>
+                <!-- Home Office Card -->
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                    <div class="p-8">
+                        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-amber-100 flex items-center justify-center">
+                                <i class="pi pi-home text-amber-600"></i>
+                            </div>
+                            Bureau à Domicile
+                        </h2>
 
-                    <button (click)="viewDetails()"
-                        class="w-full md:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold transition-all shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2 mx-auto">
-                        <span>Voir le détail de la simulation</span>
-                        <i class="pi pi-arrow-right"></i>
-                    </button>
+                        <div class="flex items-center gap-4 mb-6">
+                            <p-checkbox [(ngModel)]="useHomeOffice" [binary]="true" inputId="homeOffice"></p-checkbox>
+                            <label for="homeOffice" class="text-sm font-medium text-slate-700 cursor-pointer">
+                                Je travaille depuis chez moi
+                            </label>
+                        </div>
+
+                        @if (useHomeOffice()) {
+                        <div class="space-y-4">
+                            <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100">
+                                <label class="block text-sm font-medium text-amber-800 mb-2">
+                                    % du logement utilisé pour l'activité pro
+                                </label>
+                                <div class="flex items-center gap-4">
+                                    <p-inputNumber [(ngModel)]="homeOfficePercentage" suffix=" %" [min]="5" [max]="40"
+                                        styleClass="w-32"></p-inputNumber>
+                                    <p-slider [(ngModel)]="homeOfficePercentage" [min]="5" [max]="40"
+                                        styleClass="flex-1"></p-slider>
+                                </div>
+                                <p class="text-xs text-amber-700 mt-2">Recommandé: 10-20% pour un bureau dédié</p>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 p-4 rounded-xl">
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">Loyer / mois</label>
+                                    <p-inputNumber [(ngModel)]="rentMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" styleClass="w-full"></p-inputNumber>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl">
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">Électricité /
+                                        mois</label>
+                                    <p-inputNumber [(ngModel)]="electricityMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" styleClass="w-full"></p-inputNumber>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl">
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">Chauffage /
+                                        mois</label>
+                                    <p-inputNumber [(ngModel)]="heatingMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" styleClass="w-full"></p-inputNumber>
+                                </div>
+                                <div class="bg-slate-50 p-4 rounded-xl">
+                                    <label class="block text-xs font-medium text-slate-600 mb-1">Eau / mois</label>
+                                    <p-inputNumber [(ngModel)]="waterMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" styleClass="w-full"></p-inputNumber>
+                                </div>
+                            </div>
+
+                            <div class="bg-emerald-50 p-4 rounded-2xl border border-emerald-100 text-center">
+                                <p class="text-sm text-emerald-700">Déduction bureau estimée</p>
+                                <p class="text-2xl font-bold text-emerald-600">
+                                    {{ homeOfficeDeductionsMonthly() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }} / mois
+                                </p>
+                                <p class="text-xs text-emerald-600">
+                                    soit {{ homeOfficeDeductionsAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }} /
+                                    an
+                                </p>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Other Optimizations Card -->
+                <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+                    <div class="p-8">
+                        <h2 class="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center">
+                                <i class="pi pi-cog text-purple-600"></i>
+                            </div>
+                            Optimisations Fiscales
+                        </h2>
+
+                        <div class="space-y-6">
+                            <!-- Car -->
+                            <div class="flex items-start gap-4 p-4 rounded-2xl"
+                                [class]="useCar() ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-50'">
+                                <p-checkbox [(ngModel)]="useCar" [binary]="true" inputId="car"></p-checkbox>
+                                <div class="flex-1">
+                                    <label for="car"
+                                        class="text-sm font-medium text-slate-700 cursor-pointer block mb-2">
+                                        Véhicule de société
+                                    </label>
+                                    @if (useCar()) {
+                                    <p-inputNumber [(ngModel)]="carMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" [min]="200" [max]="1500" styleClass="w-full"></p-inputNumber>
+                                    <p class="text-xs text-slate-500 mt-1">Leasing mensuel (électrique = 100%
+                                        déductible)</p>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Phone -->
+                            <div class="flex items-start gap-4 p-4 rounded-2xl"
+                                [class]="usePhone() ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-50'">
+                                <p-checkbox [(ngModel)]="usePhone" [binary]="true" inputId="phone"></p-checkbox>
+                                <div class="flex-1">
+                                    <label for="phone"
+                                        class="text-sm font-medium text-slate-700 cursor-pointer block mb-2">
+                                        Téléphone professionnel
+                                    </label>
+                                    @if (usePhone()) {
+                                    <p-inputNumber [(ngModel)]="phoneMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" [min]="20" [max]="150" styleClass="w-full"></p-inputNumber>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Meal Vouchers -->
+                            <div class="flex items-start gap-4 p-4 rounded-2xl"
+                                [class]="useMealVouchers() ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-50'">
+                                <p-checkbox [(ngModel)]="useMealVouchers" [binary]="true"
+                                    inputId="mealVouchers"></p-checkbox>
+                                <div class="flex-1">
+                                    <label for="mealVouchers"
+                                        class="text-sm font-medium text-slate-700 cursor-pointer block mb-2">
+                                        Chèques-repas
+                                    </label>
+                                    @if (useMealVouchers()) {
+                                    <p-inputNumber [(ngModel)]="mealVouchersMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" [min]="50" [max]="200" styleClass="w-full"></p-inputNumber>
+                                    <p class="text-xs text-slate-500 mt-1">Max ~8€/jour travaillé</p>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Restaurant -->
+                            <div class="flex items-start gap-4 p-4 rounded-2xl"
+                                [class]="useRestaurant() ? 'bg-emerald-50 border border-emerald-100' : 'bg-slate-50'">
+                                <p-checkbox [(ngModel)]="useRestaurant" [binary]="true"
+                                    inputId="restaurant"></p-checkbox>
+                                <div class="flex-1">
+                                    <label for="restaurant"
+                                        class="text-sm font-medium text-slate-700 cursor-pointer block mb-2">
+                                        Frais de restaurant
+                                    </label>
+                                    @if (useRestaurant()) {
+                                    <p-inputNumber [(ngModel)]="restaurantMonthly" mode="currency" currency="EUR"
+                                        locale="fr-BE" [min]="50" [max]="500" styleClass="w-full"></p-inputNumber>
+                                    <p class="text-xs text-slate-500 mt-1">Déductible à 69%</p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div class="bg-slate-50 px-8 py-4 text-center text-xs text-slate-400 border-t border-slate-100">
-                Calcul basé sur une optimisation fiscale standard (Voiture + Frais + Dividendes VVPR-bis).
+            <!-- Right Column: Result & Guides -->
+            <div class="space-y-6">
+                <!-- Result Card (Sticky) -->
+                <div class="sticky top-24">
+                    <div
+                        class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-2xl overflow-hidden text-white">
+                        <div class="p-8">
+                            <div class="text-center mb-6">
+                                <p class="text-slate-400 text-sm mb-1">Votre TJM conseillé</p>
+                                <div class="text-5xl font-black mb-1">
+                                    {{ requiredTjm() | number:'1.0-0':'fr-BE' }} €
+                                </div>
+                                <p class="text-slate-400">par jour (HTVA)</p>
+
+                                @if (!isVatExempt()) {
+                                <div class="mt-3 bg-white/10 rounded-xl px-4 py-2 inline-block">
+                                    <span class="text-sm text-slate-300">TTC:</span>
+                                    <span class="text-lg font-bold ml-2">{{ requiredTjmWithVat() |
+                                        number:'1.0-0':'fr-BE' }} €</span>
+                                </div>
+                                }
+                            </div>
+
+                            <div class="border-t border-white/20 pt-6 space-y-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400 text-sm">CA annuel requis</span>
+                                    <span class="font-semibold">{{ requiredRevenueAnnual() |
+                                        currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400 text-sm">Jours facturés</span>
+                                    <span class="font-semibold">{{ daysWorkedPerYear() }} jours</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-slate-400 text-sm">Total frais / mois</span>
+                                    <span class="font-semibold">{{ totalExpensesMonthly() |
+                                        currency:'EUR':'symbol':'1.0-0':'fr-BE' }}</span>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 space-y-3">
+                                <button (click)="createSimulation()"
+                                    class="w-full px-6 py-4 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl font-semibold transition-all flex items-center justify-center gap-2">
+                                    <i class="pi pi-plus"></i>
+                                    <span>Créer une Simulation</span>
+                                </button>
+                                <button (click)="viewDetails()"
+                                    class="w-full px-6 py-3 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-all flex items-center justify-center gap-2">
+                                    <span>Voir le détail</span>
+                                    <i class="pi pi-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white/5 px-6 py-4 text-center text-xs text-slate-400">
+                            Calcul basé sur la fiscalité belge 2024/2025
+                        </div>
+                    </div>
+
+                    <!-- Guide Cards -->
+                    <div class="mt-6 space-y-4">
+                        <h3 class="text-lg font-bold text-slate-800">Guides & Conseils</h3>
+                        @for (guide of guides; track guide.title) {
+                        <div
+                            class="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-start gap-4">
+                                <div
+                                    class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+                                    <i [class]="guide.icon + ' text-slate-600'"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold text-slate-800 mb-1">{{ guide.title }}</h4>
+                                    <p class="text-sm text-slate-500 mb-2">{{ guide.description }}</p>
+                                    <div
+                                        class="bg-emerald-50 text-emerald-700 text-xs px-3 py-1.5 rounded-lg inline-block">
+                                        <i class="pi pi-lightbulb mr-1"></i>
+                                        {{ guide.tip }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+                    </div>
+                </div>
             </div>
         </div>
     </main>

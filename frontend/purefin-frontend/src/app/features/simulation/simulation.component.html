@@ -15,9 +15,10 @@
                 </div>
             </div>
             <nav class="hidden md:flex gap-8 text-sm font-medium text-slate-500">
-                <a href="#" class="text-slate-900 hover:text-emerald-600 transition-colors">Simulation</a>
+                <a href="javascript:void(0)"
+                    class="text-slate-900 hover:text-emerald-600 transition-colors">Simulateur</a>
+                <a routerLink="/tjm-estimator" class="hover:text-emerald-600 transition-colors">Estimateur TJM</a>
                 <a href="#" class="hover:text-emerald-600 transition-colors">A propos</a>
-                <a href="#" class="hover:text-emerald-600 transition-colors">Contact</a>
             </nav>
             <div class="flex items-center gap-3">
                 @if (authService.isAuthenticated()) {

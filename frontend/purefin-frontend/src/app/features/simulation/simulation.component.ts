@@ -1,7 +1,7 @@
 import { Component, computed, signal, effect, OnInit, Inject, PLATFORM_ID, inject } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { CardModule } from 'primeng/card';
 import { TooltipModule } from 'primeng/tooltip';
@@ -258,6 +258,7 @@ export class SimulationComponent implements OnInit {
     authService = inject(AuthService);
     private simulationService = inject(SimulationService);
     private messageService = inject(MessageService);
+    private router = inject(Router);
 
     simulationName = signal('Ma Simulation');
     currentSimulationId = signal<string | null>(null);
@@ -272,6 +273,62 @@ export class SimulationComponent implements OnInit {
         this.initChartOptions();
         this.updateCharts();
         this.loadSavedSimulations();
+
+        // Check if coming from TJM Estimator with prefill data
+        this.handleRouterState();
+    }
+
+    private handleRouterState(): void {
+        // Only access history in browser context (SSR compatibility)
+        if (!isPlatformBrowser(this.platformId)) {
+            return;
+        }
+
+        const navigation = this.router.getCurrentNavigation();
+        const state = navigation?.extras?.state || history.state;
+
+        if (state) {
+            // Load a specific simulation by ID
+            if (state['loadSimulationId']) {
+                this.simulationService.getSimulation(state['loadSimulationId']).subscribe({
+                    next: (sim) => {
+                        this.loadSimulation(sim);
+                        this.messageService.add({
+                            severity: 'info',
+                            summary: 'Simulation chargée',
+                            detail: `Simulation créée depuis l'Estimateur TJM.`
+                        });
+                    },
+                    error: () => {
+                        this.messageService.add({
+                            severity: 'warn',
+                            summary: 'Attention',
+                            detail: 'Impossible de charger la simulation.'
+                        });
+                    }
+                });
+            }
+            // Prefill data without saving (when save failed or user chose "view details")
+            else if (state['prefillData']) {
+                const data = state['prefillData'];
+                if (data.revenue) this.revenue.set(data.revenue);
+                if (data.grossSalaryMonthly) this.grossSalaryMonthly.set(data.grossSalaryMonthly);
+                if (data.phoneMonthly !== undefined) this.phoneMonthly.set(data.phoneMonthly);
+                if (data.internetMonthly !== undefined) this.internetMonthly.set(data.internetMonthly);
+                if (data.carMonthly !== undefined) this.carMonthly.set(data.carMonthly);
+                if (data.mealVouchersMonthly !== undefined) this.mealVouchersMonthly.set(data.mealVouchersMonthly);
+                if (data.restaurantMonthly !== undefined) this.restaurantMonthly.set(data.restaurantMonthly);
+                if (data.otherAnnual !== undefined) this.otherAnnual.set(data.otherAnnual);
+
+                if (state['fromEstimator']) {
+                    this.messageService.add({
+                        severity: 'info',
+                        summary: 'Données pré-remplies',
+                        detail: 'Les paramètres de l\'Estimateur TJM ont été appliqués.'
+                    });
+                }
+            }
+        }
     }
 
     loadSavedSimulations(): void {

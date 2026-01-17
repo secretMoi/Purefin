@@ -12,5 +12,9 @@ export const routes: Routes = [
     {
         path: 'register',
         loadComponent: () => import('./features/auth/register/register.component').then(m => m.RegisterComponent)
+    },
+    {
+        path: 'tjm-estimator',
+        loadComponent: () => import('./features/tjm-estimator/tjm-estimator.component').then(m => m.TjmEstimatorComponent)
     }
 ];

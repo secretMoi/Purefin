@@ -1,0 +1,80 @@
+<div class="min-h-screen bg-slate-50 relative pb-20">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" (click)="router.navigate(['/'])">
+                <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-white font-bold">P
+                </div>
+                <span class="font-bold text-slate-800 text-lg">PureFin</span>
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a href="javascript:void(0)" (click)="router.navigate(['/'])"
+                    class="text-sm font-medium text-slate-500 hover:text-emerald-500 transition-colors">Simulation</a>
+                <a href="javascript:void(0)" class="text-sm font-medium text-emerald-600">Estimateur TJM</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-3xl mx-auto px-6 pt-12">
+        <div class="text-center mb-10">
+            <h1 class="text-3xl font-bold text-slate-900 mb-3">Combien facturer pour atteindre vos objectifs ?</h1>
+            <p class="text-slate-500">Définissez votre salaire net cible, nous calculons votre TJM idéal.</p>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-xl shadow-slate-200/60 border border-slate-100 overflow-hidden">
+            <div class="p-8">
+                <!-- Target Input -->
+                <div class="mb-10">
+                    <label class="block text-sm font-medium text-slate-700 mb-2">Je veux gagner net par mois (après
+                        impôts)</label>
+                    <div class="relative">
+                        <p-inputNumber [(ngModel)]="targetNetMonthly" mode="currency" currency="EUR" locale="fr-BE"
+                            [min]="1000" [max]="10000" styleClass="w-full" class="w-full block"
+                            [inputStyle]="{'font-size': '2rem', 'font-weight': '700', 'color': '#10b981', 'padding': '1rem', 'width': '100%', 'text-align': 'center'}"></p-inputNumber>
+                    </div>
+                    <div class="mt-6 px-4">
+                        <p-slider [(ngModel)]="targetNetMonthly" [min]="1500" [max]="8000" [step]="100"
+                            styleClass="w-full"></p-slider>
+                    </div>
+                </div>
+
+                <!-- Days Worked Argument -->
+                <div
+                    class="mb-10 flex flex-col md:flex-row gap-6 items-center justify-center bg-slate-50 p-4 rounded-2xl">
+                    <div class="text-sm text-slate-600">Jours facturés / an</div>
+                    <div class="w-32">
+                        <p-inputNumber [(ngModel)]="daysWorkedPerYear" [min]="100" [max]="300"
+                            suffix=" j"></p-inputNumber>
+                    </div>
+                    <div class="text-xs text-slate-400 max-w-[200px]">
+                        Standard: 220 jours.
+                        Enlevez vacances et maladies.
+                    </div>
+                </div>
+
+                <!-- Result -->
+                <div class="text-center border-t border-slate-100 pt-8">
+                    <p class="text-slate-500 font-medium mb-1">Votre TJM (Tarif Journalier Moyen) conseillé</p>
+                    <div class="text-5xl font-black text-slate-900 mb-2">
+                        {{ requiredTjm() | number:'1.0-0':'fr-BE' }} € <span
+                            class="text-2xl text-slate-400 font-medium">/ jour</span>
+                    </div>
+                    <div
+                        class="inline-block bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-sm font-medium mb-8">
+                        CA requis : {{ requiredRevenueAnnual() | currency:'EUR':'symbol':'1.0-0':'fr-BE' }} / an
+                    </div>
+
+                    <button (click)="viewDetails()"
+                        class="w-full md:w-auto px-8 py-4 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold transition-all shadow-lg shadow-slate-900/20 flex items-center justify-center gap-2 mx-auto">
+                        <span>Voir le détail de la simulation</span>
+                        <i class="pi pi-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 px-8 py-4 text-center text-xs text-slate-400 border-t border-slate-100">
+                Calcul basé sur une optimisation fiscale standard (Voiture + Frais + Dividendes VVPR-bis).
+            </div>
+        </div>
+    </main>
+</div>

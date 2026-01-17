@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SimulationDto, SaveSimulationRequest, SimulationListResponse } from '../models/simulation.model';
 import { AuthService } from './auth.service';
+import { SimulationCalculator, SimulationData } from '../logic/simulation-calculator';
 
 @Injectable({
     providedIn: 'root'
@@ -45,5 +46,51 @@ export class SimulationService {
         return this.http.delete<void>(`${this.API_URL}/${id}`, {
             headers: this.getHeaders()
         });
+    }
+
+    /**
+     * Finds the required Revenue (Annual) to achieve the target Net Annual Income
+     * using a binary search algorithm.
+     */
+    calculateRequiredRevenue(targetNet: number, params: Partial<SimulationDto>): number {
+        // Base params with defaults if missing
+        const data: SimulationData = {
+            revenue: 0, // variable
+            grossSalaryMonthly: params.grossSalaryMonthly || 2000,
+            insuranceAnnual: params.insuranceAnnual || 0,
+            phoneMonthly: params.phoneMonthly || 0,
+            internetMonthly: params.internetMonthly || 0,
+            carMonthly: params.carMonthly || 0,
+            mealVouchersMonthly: params.mealVouchersMonthly || 0,
+            restaurantMonthly: params.restaurantMonthly || 0,
+            pensionAnnual: params.pensionAnnual || 0,
+            otherAnnual: params.otherAnnual || 0
+        };
+
+        let low = targetNet; // Minimum revenue >= target net
+        let high = targetNet * 5; // Heuristic upper bound
+        let bestRevenue = high;
+
+        // Binary Search (Max 50 iterations for precision)
+        for (let i = 0; i < 50; i++) {
+            const mid = (low + high) / 2;
+            data.revenue = mid;
+
+            // Using the imported static class
+            const result = SimulationCalculator.calculate(data);
+
+            if (Math.abs(result.netAnnual - targetNet) < 5) {
+                return Math.ceil(mid);
+            }
+
+            if (result.netAnnual < targetNet) {
+                low = mid;
+            } else {
+                bestRevenue = mid;
+                high = mid;
+            }
+        }
+
+        return Math.ceil(bestRevenue);
     }
 }
